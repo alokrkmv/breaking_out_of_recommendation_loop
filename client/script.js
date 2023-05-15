@@ -344,27 +344,136 @@
   
   }));
 
-$(document).ready(function () {
-    $("#submitform").click(function (e) {
-        var MyForm = JSON.stringify($("#myform").serializeJSON());
-        console.log(MyForm); 
+// $(document).ready(function () {
+//     $("#submitform").click(function (e) {
+//         var MyForm = JSON.stringify($("#myform").serializeJSON());
+//         console.log(MyForm); 
        
-        $.ajax(
-            {
-                url: "http://127.0.0.1:8000/generate_recommendation",
-                type: "POST",
-                data: JSON.stringify(MyForm, null, '\t'),
-                contentType: 'application/json;charset=UTF-8',
-                success: function( data, textStatus, jQxhr ){
-                  console.log(data)
-                    $('#res').empty().append(JSON.stringify(data))
-                },
-                error: function( jqXhr, textStatus, errorThrown ){
-                    console.log( errorThrown );
-                }
-            });
-        e.preventDefault(); //STOP default action
-    });
+//         $.ajax(
+//             {
+//                 url: "http://127.0.0.1:8000/generate_recommendation",
+//                 type: "POST",
+//                 data: JSON.stringify(MyForm, null, '\t'),
+//                 contentType: 'application/json;charset=UTF-8',
+//                 success: function( data, textStatus, jQxhr ){
+//                   console.log(data)
+//                     $('#res').empty().append(JSON.stringify(data))
+//                 },
+//                 error: function( jqXhr, textStatus, errorThrown ){
+//                     console.log( errorThrown );
+//                 }
+//             });
+//         e.preventDefault(); //STOP default action
+//     });
+// });
+
+// $(document).ready(function () {
+//     $("#submitform").click(function (e) {
+//         var MyForm = JSON.stringify($("#myform").serializeJSON());
+//         console.log(MyForm); 
+       
+//         $.ajax(
+//             {
+//                 url: "http://127.0.0.1:8000/generate_recommendation",
+//                 type: "POST",
+//                 data: JSON.stringify(MyForm, null, '\t'),
+//                 contentType: 'application/json;charset=UTF-8',
+//                 success: function( data, textStatus, jQxhr ){
+//                   console.log(data)
+//                     $('#res').empty().append(JSON.stringify(data))
+//                 },
+//                 error: function( jqXhr, textStatus, errorThrown ){
+//                     console.log( errorThrown );
+//                 }
+//             });
+//         e.preventDefault(); //STOP default action
+//     });
+// });
+
+// $(document).ready(function () {
+//   $("#submitform").click(function (e) {
+//       var MyForm = JSON.stringify($("#myform").serializeJSON());
+//       console.log(MyForm); 
+      
+//       $.ajax({
+//           url: "http://127.0.0.1:8000/generate_recommendation",
+//           type: "POST",
+//           data: JSON.stringify(MyForm, null, '\t'),
+//           contentType: 'application/json;charset=UTF-8',
+//           xhrFields: {
+//               responseType: 'blob' // to handle a binary response
+//           },
+//           success: function( data, textStatus, jQxhr ){
+//               console.log(data);
+//               var blob = new Blob([data], { type: 'application/pdf' });
+//               var link = document.createElement('a');
+//               link.href = window.URL.createObjectURL(blob);
+//               link.download = "recommendation.pdf";
+//               link.click();
+//           },
+//           error: function( jqXhr, textStatus, errorThrown ){
+//               console.log( errorThrown );
+//           }
+//       });
+//       e.preventDefault(); //STOP default action
+//   });
+// });
+
+$(document).ready(function () {
+  $("#submitform").click(function (e) {
+      e.preventDefault(); //STOP default action
+
+      var MyForm = JSON.stringify($("#myform").serializeJSON());
+      console.log(MyForm); 
+
+      fetch("http://127.0.0.1:8000/generate_recommendation", {
+          method: "POST",
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(MyForm, null, '\t')
+      })
+      .then(response => response.blob())
+      .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = 'recommendation.pdf';
+          link.click();
+      })
+      .catch(error => console.error(error));
+  });
 });
+
+// $(document).ready(function () {
+//   $("#submitform").click(function (e) {
+//       e.preventDefault(); //STOP default action
+
+//       var MyForm = JSON.stringify($("#myform").serializeJSON());
+//       console.log(MyForm); 
+
+//       fetch("http://127.0.0.1:8000/generate_recommendation", {
+//           method: "POST",
+//           headers: {
+//               'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(MyForm, null, '\t')
+//       })
+//       .then(response => response.blob())
+//       .then(blob => {
+//           var url = window.URL.createObjectURL(blob);
+//           var link = document.createElement('a');
+//           link.href = url;
+//           link.download = 'recommendation.pdf';
+//           link.textContent = 'Download Recommendation PDF'; // Text for the link
+//           // Append the link to the body or another element on the page
+//           document.body.appendChild(link);
+//       })
+//       .catch(error => console.error(error));
+//   });
+// });
+
+
+
 
 
