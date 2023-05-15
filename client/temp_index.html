@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>Revenue Predictor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css", rel = "stylesheet">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="serialize_json.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<!-- <div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">Generating recommendations...</div> -->
+<div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
+    <div class="spinner" style="border: 8px solid #f3f3f3; border-top: 8px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 2s linear infinite; margin: auto;"></div>
+    <p style="margin-top: 10px; color: #3498db; font-size: 20px; font-weight: bold;">Generating recommendations...</p>
+</div>
+
+
+<div class="container contact-form">
+            <div class="contact-image">
+                <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
+            </div>
+            <form method="post" name="myform" id="myform">
+                <h3>Prompt Based Recommendation Generator</h3>
+               <div class="row">
+                <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <!-- <div class="form-group">
+                            <input type="number" name="Population" class="form-control" placeholder="Population" value="" />
+                         </div>
+                         <div class="form-group">
+                                <select id="CityGroup" class="form-control" name="CityGroup">
+                                  <option value="" disabled selected>City Group</option>
+                                  <option value = "BigCity" >"BigCity</option>
+                                  <option  value = "Other">Other</option>
+                                </select>
+                        </div> -->
+                        
+                        <div class="form-group">
+                            <input type="text" name="gender" class="form-control" placeholder="Gender" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="age" class="form-control" placeholder="Age" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="location" class="form-control" placeholder="Location" value="" />
+                        </div>
+                        <div class="form-group">
+                            <select id="sexual_preference" class="form-control" name="sexual_preference">
+                              <option value="" disabled selected>Sexual Preference</option>
+                              <option value = "Heterosexual" >Heterosexual</option>
+                              <option  value = "Homosexual">Homosexual</option>
+                              <option value = "Bisexual" >Bisexuality</option>
+                              <option  value = "Pansexual">Pansexuality</option>
+                              <option value = "Asexual" >Asexuality</option>
+                              <option  value = "Demisexual">Demisexuality</option>
+                              <option value = "Queer" >Queer</option>
+                              <option  value = "false">false</option>
+                            </select>
+                        </div>
+                        <!-- <div class="form-group">
+                            <select id="variation" class="form-control" name="variation">
+                              <option value="" disabled selected>Variation</option>
+                              <option value = "true" >true</option>
+                              <option  value = "false">false</option>
+                            </select>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="percentage">Percentage</label>
+                            <input type="range" id="percentage" name="variation" min="20" max="100" class="form-control">
+                            <span id="percentageValue">20%</span>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="current_recommendation" id="res" class="form-control" placeholder="Current Recommendations" style="width: 150%; height: 300px;"></textarea>
+                            <!-- <input type="text" name="current_recommendation" class="form-control" placeholder="current_recommendation" value="" /> -->
+                        </div>
+                        <!-- <div class="form-group">
+                                <input type="number" name="Area" class="form-control" placeholder="Area" value="" />
+                        </div>
+                        <div class="form-group">
+                                <input type="number" name="CarParkArea" class="form-control" placeholder="CarParkArea" value="" min="0" max="10"/>
+                        </div>
+                        <div class="form-group">
+                                <input type="number" name="No_of_points_of_interest_nearby" class="form-control" placeholder="No. of points of interest nearby" value="" min="0" max="10" />
+                        </div> -->
+                        <div class="form-group">
+                            <input type="submit" name="btnSubmit" class="btnContact" value="Generate" id="submitform"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <div class="form-group">
+                            <textarea name="txtMsg" id="res" class="form-control" placeholder="Suggested Recommendation" style="width: 100%; height: 500px;"></textarea> 
+                            <input type="file" id="pdfUpload" accept=".pdf">
+                        </div> -->
+                    </div> 
+                </div>
+            </form>
+</div>
+<script>
+  const slider = document.getElementById('percentage');
+  const output = document.getElementById('percentageValue');
+
+  // Display the default slider value
+  output.textContent = slider.value + '%';
+
+  // Update the current slider value (each time you drag the slider handle)
+  slider.oninput = function() {
+      output.textContent = this.value + '%';
+  }
+</script>
+<script src="script.js">
+
+
+</script>
+</body>
+</html>

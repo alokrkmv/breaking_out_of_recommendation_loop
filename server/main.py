@@ -59,6 +59,7 @@ def generate_recommendation():
                 }
             }
             return response_dict
+        print(data_dict)
         if "variation" not in data_dict or data_dict["variation"]=="":
             return {"message":"Can't process your request as mandatory key variation is missing from request body"}
         if "current_recommendation" not in data_dict or data_dict["current_recommendation"]=="":
@@ -69,16 +70,16 @@ def generate_recommendation():
         if "gender" in data_dict and data_dict["gender"]!="":
             base_prompt+=" "+data_dict["gender"]
         if "location" in data_dict and data_dict["location"]!="":
-            base_prompt+="located at"+" "+data_dict["location"]+"."
+            base_prompt+=" located at"+" "+data_dict["location"]+"."
+        if "sexual_preference" in data_dict and data_dict["sexual_preference"]!="":
+            base_prompt+="I am a "+data_dict["sexual_preference"]+"."
         
         base_prompt+="My current youtube recommendations are from topics "+data_dict["current_recommendation"]+"."
-        if data_dict["variation"]:
-            base_prompt+="I want to change my recommendations. Can you suggest me some content on youtube with channel name and youtube video which are vastly \
-                different from my current recommendation topics while taking my gender, age and location into account"
-        else:
-            base_prompt+="I want to change my recommendations. Can you suggest me some content on youtube with channel name and youtube video which can change \
-                my recommendation while still taking  my area of interest and my gender, age and location into account."
+      
+        base_prompt+="I want to change my recommendations. Can you suggest me some content on youtube with channel name and youtube video title which are \
+different from my current recommendation topics by atleast "+ data_dict["variation"]+ " percent while taking my gender, age sexual orientation and location into account. Can you also make sure to suggest at least 15 such recommendations?"
 
+        print(base_prompt)
         openai.api_key = os.getenv("OPENAI_API_KEY")
         messages = [ {"role": "user", "content": base_prompt} ]
         chat = openai.ChatCompletion.create(

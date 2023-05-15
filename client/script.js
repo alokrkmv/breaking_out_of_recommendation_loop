@@ -8,6 +8,9 @@
   Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
   and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
 */
+
+
+
 (function (factory) {
     if (typeof define === 'function' && define.amd) { // AMD. Register as an anonymous module.
       define(['jquery'], factory);
@@ -419,12 +422,41 @@
 //   });
 // });
 
+// $(document).ready(function () {
+//   $("#submitform").click(function (e) {
+//       e.preventDefault(); //STOP default action
+
+//       var MyForm = JSON.stringify($("#myform").serializeJSON());
+//       console.log(MyForm); 
+
+//       fetch("http://127.0.0.1:8000/generate_recommendation", {
+//           method: "POST",
+//           headers: {
+//               'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(MyForm, null, '\t')
+//       })
+//       .then(response => response.blob())
+//       .then(blob => {
+//           var url = window.URL.createObjectURL(blob);
+//           var link = document.createElement('a');
+//           link.href = url;
+//           link.download = 'recommendation.pdf';
+//           link.click();
+//       })
+//       .catch(error => console.error(error));
+//   });
+// });
+
 $(document).ready(function () {
   $("#submitform").click(function (e) {
       e.preventDefault(); //STOP default action
 
       var MyForm = JSON.stringify($("#myform").serializeJSON());
       console.log(MyForm); 
+
+      // Show the loader
+      document.getElementById("loader").style.display = "block";
 
       fetch("http://127.0.0.1:8000/generate_recommendation", {
           method: "POST",
@@ -435,15 +467,24 @@ $(document).ready(function () {
       })
       .then(response => response.blob())
       .then(blob => {
+          // Hide the loader
+          document.getElementById("loader").style.display = "none";
+
           var url = window.URL.createObjectURL(blob);
           var link = document.createElement('a');
           link.href = url;
           link.download = 'recommendation.pdf';
           link.click();
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+          // Hide the loader
+          document.getElementById("loader").style.display = "none";
+
+          console.error(error);
+      });
   });
 });
+
 
 // $(document).ready(function () {
 //   $("#submitform").click(function (e) {
