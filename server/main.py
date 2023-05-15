@@ -6,6 +6,12 @@ from flask_cors import CORS
 import ast
 import os
 import openai
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, A4
+from io import BytesIO
+from reportlab.lib.colors import black
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 logging.basicConfig(level = logging.INFO)
 app = Flask(__name__)
 CORS(app)
@@ -83,22 +89,28 @@ def generate_recommendation():
 
         buffer = BytesIO()
 
-        # Create the PDF object, using the buffer as its "file"
-        p = canvas.Canvas(buffer)
+        # Create the PDF object, using the buffer as its "file."
+        doc = SimpleDocTemplate(buffer, pagesize=A4)
 
-        # Draw the response text on the PDF
-        p.drawString(100000, 750000, reply)
+        styles = getSampleStyleSheet()
+        styleN = styles['Normal']
 
-        # Save the PDF file
-        p.showPage()
-        p.save()
+        # Create a list to hold the paragraphs
+        story = []
 
-        # Move the buffer to the beginning of the file
+        # Create the paragraphs and add them to the story
+        story.append(Paragraph(reply, styleN))
+
+        # Build the story into the document
+        doc.build(story)
+
+        # Move buffer cursor to start
         buffer.seek(0)
 
-        # Send the file as a response
-        # return send_file(buffer, as_attachment=True, download_name='response.pdf', mimetype='application/pdf')
-        return {"new_recommendations":reply}
+        # Send buffer in a response
+        return send_file(buffer, as_attachment=True, download_name='report.pdf', mimetype='application/pdf')
+
+        # return {"new_recommendations":reply}
 
     except Exception as e:
         logging.exception("Invalid request body!!!")
